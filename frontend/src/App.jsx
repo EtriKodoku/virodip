@@ -22,25 +22,6 @@ const ProfileContent = () => {
             .then((response) => {
                 callMsGraph(response.accessToken).then((graphResponse) => {
                     setGraphData(graphResponse);
-                    
-                    fetch('http://localhost:5000/api/add_user', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${response.idToken}` // Передаємо токен
-                        },
-                        body: JSON.stringify({
-                            name: accounts[0].name,
-                            email: accounts[0].username,  
-                        }),
-                    })
-                    .then((backendResponse) => backendResponse.json())
-                    .then((data) => {
-                        console.log("User added:", data);
-                    })
-                    .catch((error) => {
-                        console.error("Error sending token to backend:", error);
-                    });
                 });
             })
             .catch((error) => {

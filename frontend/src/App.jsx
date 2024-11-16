@@ -27,6 +27,7 @@ const ProfileContent = () => {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${response.idToken}` // Передаємо токен
                         },
                         body: JSON.stringify({
                             name: accounts[0].name,

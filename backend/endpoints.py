@@ -1,24 +1,26 @@
-from flask import Blueprint, request, jsonify
-from flask import Flask
+from flask import Flask, Blueprint, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Дозволяє всі запити з різних джерел
+CORS(app)  # Дозволити CORS для всього додатку
 
+# Створення Blueprint
+my_blueprint = Blueprint('my_blueprint', __name__)
 
+@my_blueprint.route('/api/add_user', methods=['POST'])
+def add_user_blueprint():
+    return {"message": "User added via blueprint"}
+
+# Додати CORS до Blueprint (зайве при CORS(app), але залишено для локальних змін)
+CORS(my_blueprint)
+
+# Реєстрація Blueprint
+app.register_blueprint(my_blueprint)
+
+# Інший Blueprint
 domain = Blueprint('user', __name__)
 
 users = []
-
-# @domain.before_request
-# def connect_db():
-#     ...
-
-
-# @domain.after_request
-# def close_db():
-#     ...
-
 
 @domain.route('/add_user', methods=['POST'])
 def add_user():
@@ -32,8 +34,7 @@ def add_user():
         'name': data['name'],
         'email': data['email']
     }
-    users.domainend(new_user)
-    
+    users.append(new_user)  # Виправлено помилку в методі
     return jsonify({"message": "User added", "user": new_user}), 201
 
 @domain.route('/users', methods=['GET'])
@@ -44,7 +45,6 @@ def get_users():
 def delete_user(user_id):
     global users
     users = [user for user in users if user['id'] != user_id]
-    
     return jsonify({"message": "User deleted"}), 204
 
 @domain.route('/geolocation', methods=['POST'])
@@ -60,4 +60,8 @@ def get_geolocation():
 def index():
     return "Flask API is running!"
 
+# Реєстрація Blueprint
+app.register_blueprint(domain)
 
+if __name__ == '__main__':
+    app.run(debug=True)

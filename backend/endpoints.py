@@ -1,23 +1,5 @@
-from flask import Flask, Blueprint, request, jsonify
-from flask_cors import CORS
+from flask import Blueprint, request, jsonify
 
-app = Flask(__name__)
-CORS(app)  # Дозволити CORS для всього додатку
-
-# Створення Blueprint
-my_blueprint = Blueprint('my_blueprint', __name__)
-
-@my_blueprint.route('/api/add_user', methods=['POST'])
-def add_user_blueprint():
-    return {"message": "User added via blueprint"}
-
-# Додати CORS до Blueprint (зайве при CORS(app), але залишено для локальних змін)
-CORS(my_blueprint)
-
-# Реєстрація Blueprint
-app.register_blueprint(my_blueprint)
-
-# Інший Blueprint
 domain = Blueprint('user', __name__)
 
 users = []
@@ -59,9 +41,3 @@ def get_geolocation():
 @domain.route('/')
 def index():
     return "Flask API is running!"
-
-# Реєстрація Blueprint
-app.register_blueprint(domain)
-
-if __name__ == '__main__':
-    app.run(debug=True)

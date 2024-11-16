@@ -20,7 +20,30 @@ const ProfileContent = () => {
                 account: accounts[0],
             })
             .then((response) => {
-                callMsGraph(response.accessToken).then((response) => setGraphData(response));
+                callMsGraph(response.accessToken).then((graphResponse) => {
+                    setGraphData(graphResponse);
+                    
+                    fetch('http://localhost:5000/api/add_user', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: accounts[0].name,
+                            email: accounts[0].username,  
+                        }),
+                    })
+                    .then((backendResponse) => backendResponse.json())
+                    .then((data) => {
+                        console.log("User added:", data);
+                    })
+                    .catch((error) => {
+                        console.error("Error sending token to backend:", error);
+                    });
+                });
+            })
+            .catch((error) => {
+                console.error(error);
             });
     }
 
@@ -37,7 +60,6 @@ const ProfileContent = () => {
         </>
     );
 };
-
 
 const MainContent = () => {
     return (

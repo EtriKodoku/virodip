@@ -1,6 +1,10 @@
+import os
 from validation import validate_token
 from werkzeug.wrappers import Response
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
 
 class SimpleMiddleware:
     def __init__(self, app):
@@ -18,6 +22,8 @@ class SimpleMiddleware:
                         token = auth_header.replace("Bearer ", "")
                         token_data = validate_token(token)
                         environ['token_data'] = token_data
+                    elif auth_header == f"ESP32 {os.getenv("ESP_32")}":
+                        environ['token_data'] = auth_header
                     else:
                         raise ValueError("No Bearer token found")
                 except Exception as e:

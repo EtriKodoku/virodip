@@ -39,18 +39,3 @@ def geolocation():
         return jsonify({"message": "Data saved successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-@domain.route('/list_users', methods=['GET'])
-def list_users():
-    try:
-        users = Users.select()
-        user_list = [{
-            "id": user.id,
-            "email": user.email,
-            "at_home": user.at_home
-        } for user in users]
-
-        return jsonify({"users": user_list}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500

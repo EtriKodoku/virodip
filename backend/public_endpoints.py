@@ -3,21 +3,21 @@ import json
 from models import Users, Activity
 from datetime import datetime
 
-domain = Blueprint('not_user', __name__)
+domain = Blueprint("not_user", __name__)
 
 
-@domain.route('/geolocation', methods=['POST'])
+@domain.route("/geolocation", methods=["POST"])
 def geolocation():
     try:
         # Отримання даних з реквесту
         data = json.loads(json.dumps(request.get_json()))
 
-        email = data.get('email')
-        action = data.get('action')
-        time = data.get('time')
+        email = data.get("email")
+        action = data.get("action")
+        time = data.get("time")
 
         # Перевірка даних
-        if not email or action not in ['entered', 'exited'] or not time:
+        if not email or action not in ["entered", "exited"] or not time:
             return jsonify({"error": "Invalid input"}), 400
 
         # Перетворення часу в datetime
@@ -27,9 +27,9 @@ def geolocation():
         user, created = Users.get_or_create(email=email)
 
         # Оновлення статусу at_home
-        if action == 'entered':
+        if action == "entered":
             user.at_home = True
-        elif action == 'exited':
+        elif action == "exited":
             user.at_home = False
         user.save()
 

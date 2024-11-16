@@ -8,10 +8,10 @@ app = Flask(__name__)
 CORS(app)  # Дозволити CORS для всього додатку
 
 # Uncomment for prod
-app.wsgi_app = SimpleMiddleware(app.wsgi_app)  
+app.wsgi_app = SimpleMiddleware(app.wsgi_app)
 
-app.register_blueprint(domain, url_prefix='/api')
-app.register_blueprint(domik, url_prefix='/public')
+app.register_blueprint(domain, url_prefix="/api")
+app.register_blueprint(domik, url_prefix="/public")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

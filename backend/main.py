@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)  # Дозволити CORS для всього додатку
 
 # Uncomment for prod
-# app.wsgi_app = SimpleMiddleware(app.wsgi_app)  
+app.wsgi_app = SimpleMiddleware(app.wsgi_app)  
 
 app.register_blueprint(domain, url_prefix='/api')
 

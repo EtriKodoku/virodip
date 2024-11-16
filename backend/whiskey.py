@@ -9,9 +9,11 @@ class SimpleMiddleware:
     def __call__(self, environ, start_response):
             #  OPTIONS is used for preflight check for CORS
             if environ.get('REQUEST_METHOD') == "OPTIONS":
+                print(start_response)
                 return self.app(environ, start_response)
             else:
                 try:
+                    print(environ)
                     auth_header = environ.get('HTTP_AUTHORIZATION', '')
                     if auth_header.startswith("Bearer "):
                         token = auth_header.replace("Bearer ", "")

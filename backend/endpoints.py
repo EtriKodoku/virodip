@@ -34,9 +34,9 @@ def user_activity(user_id):
         activity_list = [{
             "id": activity.id,
             "action": activity.action,
-            "time": activity.time.isoformat()
+            "time": activity.time
         } for activity in activities]
-
+        activity_list.reverse()
         return jsonify({
             "user": {"id": user.id, "email": user.email, "at_home": user.at_home},
             "activities": activity_list

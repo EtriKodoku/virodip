@@ -8,8 +8,7 @@ class SimpleMiddleware:
 
     def __call__(self, environ, start_response):
             #  OPTIONS is used for preflight check for CORS
-            if environ.get('REQUEST_METHOD') == "OPTIONS":
-                print(start_response)
+            if environ.get('REQUEST_METHOD') == "OPTIONS" or 'public' in environ.get('RAW_URI') :
                 return self.app(environ, start_response)
             else:
                 try:

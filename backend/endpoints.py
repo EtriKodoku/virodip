@@ -7,7 +7,7 @@ users = []
 @domain.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
-
+    print(request.environ.get('token_data'))
     if not data or 'name' not in data or 'email' not in data:
         return jsonify({"error": "Invalid input"}), 400
 
@@ -16,7 +16,7 @@ def add_user():
         'name': data['name'],
         'email': data['email']
     }
-    users.append(new_user)  # Виправлено помилку в методі
+    users.append(new_user)
     return jsonify({"message": "User added", "user": new_user}), 201
 
 @domain.route('/users', methods=['GET'])

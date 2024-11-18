@@ -14,7 +14,7 @@ def add_user():
         return jsonify({"error": "Invalid input"}), 400
 
     user, created = Users.get_or_create(email=data["email"])
-    return jsonify({"message": "User added", "user": user}), 201
+    return jsonify({"message": "User added"}), 201
 
 
 @domain.route("/user_activity/<int:user_id>", methods=["GET"])

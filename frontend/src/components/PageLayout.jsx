@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useIsAuthenticated } from '@azure/msal-react';
 import { SignInButton } from './SignInButton';
 import { SignOutButton } from './SignOutButton';
+import config from '../config'; // Імпорт конфігурації
 
 export const PageLayout = (props) => {
     const [users, setUsers] = useState([]); // Стан для збереження користувачів
@@ -11,7 +12,7 @@ export const PageLayout = (props) => {
 
     useEffect(() => {
         // Запит до API для отримання списку користувачів
-        fetch('http://localhost:5000/api/list_users')
+        fetch(`${config.serverAddress}/api/list_users`)
             .then((response) => response.json())
             .then((data) => {
                 setUsers(data.users); // Збереження користувачів в стан
@@ -23,7 +24,7 @@ export const PageLayout = (props) => {
 
     const handleEmailClick = (userId) => {
         // Запит до API для отримання активності користувача
-        fetch(`http://localhost:5000/api/user_activity/${userId}`)
+        fetch(`${config.serverAddress}/api/user_activity/${userId}`)
             .then((response) => response.json())
             .then((data) => {
                 setUserActivity(data); // Збереження даних про активність

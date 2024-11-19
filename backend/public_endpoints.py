@@ -10,7 +10,7 @@ domain = Blueprint("not_user", __name__)
 def geolocation():
     try:
         # Отримання даних з реквесту
-        data = json.loads(json.dumps(request.get_json()))
+        data = json.loads(request.get_json())
 
         email = data.get("email")
         action = data.get("action")

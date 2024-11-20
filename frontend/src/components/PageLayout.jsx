@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import { useIsAuthenticated } from '@azure/msal-react';
-import { SignInButton } from './SignInButton';
-import { SignOutButton } from './SignOutButton';
-import config from '../config'; // Імпорт конфігурації
+import React, { useState, useEffect } from "react";
+import Navbar from "react-bootstrap/Navbar";
+import { useIsAuthenticated } from "@azure/msal-react";
+import { SignInButton } from "./SignInButton";
+import { SignOutButton } from "./SignOutButton";
+import config from "../config"; // Імпорт конфігурації
 
 export const PageLayout = (props) => {
     const [users, setUsers] = useState([]); // Стан для збереження користувачів
@@ -11,9 +11,27 @@ export const PageLayout = (props) => {
     const isAuthenticated = useIsAuthenticated();
 
     useEffect(() => {
+        const token = localStorage.getItem("authToken"); // Отримуємо токен із локального сховища
+
+        if (!token) {
+            console.error("Token not found. Ensure the user is authenticated.");
+            return;
+        }
+
         // Запит до API для отримання списку користувачів
-        fetch(`${config.serverAddress}/api/list_users`)
-            .then((response) => response.json())
+        fetch(`${config.serverAddress}/api/list_users`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Передаємо токен
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch users");
+                }
+                return response.json();
+            })
             .then((data) => {
                 setUsers(data.users); // Збереження користувачів в стан
             })
@@ -23,9 +41,27 @@ export const PageLayout = (props) => {
     }, []);
 
     const handleEmailClick = (userId) => {
+        const token = localStorage.getItem("authToken"); // Отримуємо токен із локального сховища
+
+        if (!token) {
+            console.error("Token not found. Ensure the user is authenticated.");
+            return;
+        }
+
         // Запит до API для отримання активності користувача
-        fetch(`${config.serverAddress}/api/user_activity/${userId}`)
-            .then((response) => response.json())
+        fetch(`${config.serverAddress}/api/user_activity/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`, // Передаємо токен
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user activity");
+                }
+                return response.json();
+            })
             .then((data) => {
                 setUserActivity(data); // Збереження даних про активність
             })
@@ -40,9 +76,7 @@ export const PageLayout = (props) => {
                 <a className="navbar-brand" href="/">
                     VIRODIP PROJECT
                 </a>
-                <div className="profileContent">
-                    {props.children}
-                </div>
+                <div className="profileContent">{props.children}</div>
                 <div className="collapse navbar-collapse justify-content-end">
                     {isAuthenticated ? <SignOutButton /> : <SignInButton />}
                 </div>
@@ -64,7 +98,7 @@ export const PageLayout = (props) => {
                             <tr key={user.id}>
                                 <td>{user.id}</td>
                                 <td
-                                    style={{ cursor: 'pointer', color: 'blue' }}
+                                    style={{ cursor: "pointer", color: "blue" }}
                                     onClick={() => handleEmailClick(user.id)} // Обробник події
                                 >
                                     {user.email}
@@ -82,9 +116,10 @@ export const PageLayout = (props) => {
                         <ul>
                             {userActivity.activities.map((activity, index) => (
                                 <li key={index}>
-                                    <strong>Action:</strong> {activity.action} 
+                                    <strong>Action:</strong> {activity.action}
                                     <br />
-                                    <strong>Time:</strong> {new Date(activity.time).toLocaleString()}
+                                    <strong>Time:</strong>{" "}
+                                    {new Date(activity.time).toLocaleString()}
                                 </li>
                             ))}
                         </ul>

@@ -1,5 +1,5 @@
 const config = {
-    serverAddress: "http://localhost:5000" 
+    serverAddress: "https://back.virodip.click" 
 };
 
 export default config;

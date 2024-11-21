@@ -1,11 +1,11 @@
 
 import { LogLevel } from "@azure/msal-browser";
-
+// import config from "config";
 export const msalConfig = {
     auth: {
         clientId: "900ef343-8b66-4ff5-b50b-04aef92763ed",
         authority: "https://login.microsoftonline.com/70a28522-969b-451f-bdb2-abfea3aaa5bf",
-        redirectUri: "http://localhost:3000",
+        redirectUri: "https://virodip.click",
     },
     cache: {
         cacheLocation: "sessionStorage", 

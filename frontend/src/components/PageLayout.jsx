@@ -11,6 +11,11 @@ export const PageLayout = (props) => {
     const isAuthenticated = useIsAuthenticated();
 
     useEffect(() => {
+        if (!isAuthenticated) {
+            setUsers([]); // Якщо не автентифікований, очищуємо користувачів
+            return;
+        }
+
         const token = localStorage.getItem("authToken"); // Отримуємо токен із локального сховища
 
         if (!token) {
@@ -38,7 +43,7 @@ export const PageLayout = (props) => {
             .catch((error) => {
                 console.error("Error fetching users:", error);
             });
-    }, []);
+    }, [isAuthenticated]); // Додано залежність від isAuthenticated
 
     const handleEmailClick = (userId) => {
         const token = localStorage.getItem("authToken"); // Отримуємо токен із локального сховища

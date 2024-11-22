@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import Users, Activity
 from datetime import datetime
+import pytz
 
 domain = Blueprint("not_user", __name__)
 
@@ -23,7 +24,9 @@ def geolocation():
 
         # Перетворення часу в datetime
         date_format = "%B %d, %Y at %I:%M%p"
-        local_time = datetime.strptime(time, date_format)
+        ua_timezone = pytz.timezone("Europe/Kyiv")
+        time = datetime.strptime(time, date_format)
+        time = ua_timezone.localize(time)
 
         # Знаходження або створення користувача
         user, created = Users.get_or_create(email=email)
@@ -36,7 +39,7 @@ def geolocation():
         user.save()
 
         # Додавання запису в таблицю Activity
-        acti = Activity.create(user_id=user, action=action, time=local_time)
+        acti = Activity.create(user_id=user, action=action, time=time)
         print(acti.time )
         return jsonify({"message": "Data saved successfully"}), 200
     except Exception as e:

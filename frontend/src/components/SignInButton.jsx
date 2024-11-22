@@ -12,6 +12,9 @@ export const SignInButton = () => {
         instance.handleRedirectPromise()
             .then((loginResponse) => {
                 if (loginResponse) {
+                    // Зберігаємо токен у localStorage
+                    localStorage.setItem("authToken", loginResponse.idToken);
+    
                     // Після успішного входу надсилаємо POST-запит
                     fetch(`${config.serverAddress}/api/add_user`, {
                         method: "POST",
@@ -37,6 +40,7 @@ export const SignInButton = () => {
                 console.error("Redirect handling error:", error);
             });
     }, [instance]);
+    
 
     // Функція виклику редіректу
     const handleLogin = () => {

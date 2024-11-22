@@ -5,9 +5,8 @@ export const SignOutButton = () => {
     const { instance } = useMsal();
 
     const handleLogout = () => {
-        instance.logoutPopup({
-            postLogoutRedirectUri: "/",
-            mainWindowRedirectUri: "/"
+        instance.logoutRedirect({
+            postLogoutRedirectUri: "/", // URL, на який буде перенаправлено після виходу
         }).catch(e => {
             console.log(e);
         });

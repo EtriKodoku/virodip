@@ -1,0 +1,25 @@
+{
+    "email": "VOLODYMYR.PETRIV@lnu.edu.ua",
+    "action": "exited",
+    "time": "November 22, 2024 at 10:50PM"
+}
+{
+    "email": "VOLODYMYR.PETRIV@lnu.edu.ua",
+    "action": "exited",
+    "time": "November 22, 2024 at 10:50PM"
+}
+{
+    "email": "VOLODYMYR.PETRIV@lnu.edu.ua",
+    "action": "exited",
+    "time": "November 22, 2024 at 10:50PM"
+}
+{
+    "email": "VOLODYMYR.PETRIV@lnu.edu.ua",
+    "action": "exited",
+    "time": "November 22, 2024 at 10:50PM"
+}
+{
+    "email": "VOLODYMYR.PETRIV@lnu.edu.ua",
+    "action": "exited",
+    "time": "November 22, 2024 at 10:50PM"
+}
